@@ -1,5 +1,7 @@
 # AproxPac-Man
 
+### Link Demo Video -> https://drive.google.com/file/d/1mDqdcEs4vshq3lOLWqcE6hryIrKEHslT/view?usp=sharing
+
 Proiectul constă într-o parte software și una hardware în cazul soluției alese de mine(soluție aleasă din lipsă de timp în perioada deadline-ului de predare al proiectului). 
 
 Partea hardware constă în conectarea unei matrici de led-uri(am avut la îndemână doar de 8x8) RGB adresabilă(LED de tip WS2812B) și a unui joystick la o plăcuță de dezvoltare Arduino UNO(Model care-mi va cauza inconveniențe pe viitor în implementare din cauza lipsei de memorie).
