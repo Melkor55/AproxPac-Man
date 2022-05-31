@@ -35,6 +35,6 @@ Se folosesc două clase principale Player și Enemy(care exind clasa Led - fieca
 
 Neajunsuri și posibilități de developement pe viitor :
 
-  Introducerea a mai mult OOP pentru mai multe funcționalități și o estetică mai plăcută a codului.
+- Introducerea a mai mult OOP pentru mai multe funcționalități și o estetică mai plăcută a codului.
 
 
