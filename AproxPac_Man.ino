@@ -274,6 +274,11 @@ Player p;
 Enemy e,e1,e2 ;
 ///
 
+void clearArray()
+{
+  for (int i = 0 ; i < N ; i ++)
+    ledarray[i] = COLOR_DEFAULT;
+}
 
 void setupMap(int map[], Player player, Enemy enemy)  //  se încarcă harta în funcție de layout-ul de pereți/path(1-pereti,0-path) după care se adaugă Player-ul și Enemy-ul
 {
@@ -317,7 +322,9 @@ void Map2()
       p = Player(3);
       e = Enemy(51);
       e1 = Enemy(15);
+      e.setMoves(4);
       e1.setMoves(4);
+      clearArray();
 }
 void Map3()
 {
