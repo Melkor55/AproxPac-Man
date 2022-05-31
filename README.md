@@ -36,5 +36,11 @@ Se folosesc două clase principale Player și Enemy(care exind clasa Led - fieca
 Neajunsuri și posibilități de developement pe viitor :
 
 - Introducerea a mai mult OOP pentru mai multe funcționalități și o estetică mai plăcută a codului.
-
+- Implementarea pe o matrice de dimensiuni mai mari pentru a spori complexitatea
+- Adăugarea mai multor tipuri de Enemy
+- Adăugarea unui scor și prize points
+- Adăugarea de 'food' pentru plyer pentru a putea mânca inamicii
+- Evoluarea sistemului de mișcare pentru obiecte de tip Enemy - dinamic movement
+- Adăugarea de nivele de dificulate( de ex pentru movement-ul inamicilor sau numprul lor )
+- Mutarea pe o placă de dezvoltare mai puternică, cu mai multe resurse precum Rasberry PI sau adăugarea de memorie externă
 
