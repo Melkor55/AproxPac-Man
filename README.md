@@ -44,3 +44,11 @@ Neajunsuri și posibilități de developement pe viitor :
 - Adăugarea de nivele de dificulate( de ex pentru movement-ul inamicilor sau numprul lor )
 - Mutarea pe o placă de dezvoltare mai puternică, cu mai multe resurse precum Rasberry PI sau adăugarea de memorie externă
 
+
+Tool-uri folosite :
+- Arduino IDE (cod)
+- Tinkercad (cod, diagramă și simulare - dar foarte limitat)
+- Proteus (diagramă + simulare <prin intermediul Arduino IDE sau Sublime Text> )
+- Fritzing (diagramă -> care e și în proiect)
+- Sublime Text ( scriere/editare cod + simulare )
+- GitKracken - tool pentru versionarea mai ușoară a repository-ului
