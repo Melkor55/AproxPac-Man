@@ -16,7 +16,7 @@ int starting_position = 2; // 0-1-2
 bool passible_terrain = 0;
 bool lost = false;
 int won = 0;
-int count = 1 ;
+//int count = 1 ;
 int nr_of_maps = 2;
 
 
@@ -147,10 +147,23 @@ public:
 class Enemy : Led {
 public:
     int _position;
+    int _last_position;
+    int count ;
+    int _moves ;  //  nr of moves
 public:
     Enemy() : Led(COLOR_ENEMY) {}
     Enemy(int position) : Led(COLOR_ENEMY) {
         _position = position;
+        count = 1;
+        _moves = 3;
+    }
+
+    int getMoves() const {
+        return _moves;
+    }
+
+    void setMoves(int moves) {
+        _moves = moves;
     }
 
     int getPosition() const {
@@ -161,36 +174,55 @@ public:
         _position = position;
     }
 
+    int getLastposition() const {
+        return _last_position;
+    }
+
+    void setLastposition(int last_position) {
+        _last_position = last_position;
+    }
+
+    int getCount() const {
+        return count;
+    }
+
+    void setCount(int count) {
+        count = count;
+    }
+
     void moveDown() {
+        _last_position = _position;
         _position += 8;
     }
 
     void moveLeft() {
+        _last_position = _position;
         _position -= 1;
     }
 
     void moveUp() {
-
+        _last_position = _position;
         _position -= 8;
     }
 
     void moveRight() {
+        _last_position = _position;
         _position += 1;
     }
 
     //  se folosește count pentru a reține numărul de mișcări făcute de enemy - la sfârșit de loop revine la 0
     void movement1()  //  primul tip de mișcare al enemy-ului -> 3 mișcări stânga + 3 dreapta în loop
     {
-      if(count <= 3)
+      if(count <= _moves)
       {
         moveLeft();
         delay(500);
       }
-      else if((count >= 4)&&(count <= 6))
+      else if((count >= _moves+1)&&(count <= 2*_moves))
       {
         moveRight();
         delay(500);
-        if (count == 6)
+        if (count == 2*_moves)
         count = 0;
       }
       count ++;  
@@ -198,16 +230,16 @@ public:
     
     void movement2()  //  al doilea tip de mișcare al enemy-ului -> 3 mișcări sus + 3 jos în loop
     {
-      if(count <= 3)
+      if(count <= _moves)
       {
         moveUp();
         delay(500);
       }
-      else if((count >= 4)&&(count <= 6))
+      else if((count >= _moves+1)&&(count <= 2*_moves))
       {
         moveDown();
         delay(500);
-        if (count == 6)
+        if (count == 2*_moves)
         count = 0;
       }
       count ++;  
@@ -217,11 +249,11 @@ public:
 /// partea de layout-uri a hărților + poziția de finish(+o eventuală poziție de start dacă se dorește a fi diferită)
 int map1[N] = {
                            1,1,0,1,1,1,1,1,
-                           1,0,0,1,0,0,0,1,
-                           1,0,1,1,1,1,1,1,
+                           1,0,0,0,0,0,0,1,
+                           1,0,1,1,1,1,0,1,
                            1,0,0,0,0,1,0,1,
-                           1,0,0,0,1,1,0,1,
-                           1,0,0,1,1,1,1,1,
+                           1,0,1,0,0,0,0,1,
+                           1,0,0,1,1,0,0,1,
                            1,0,0,0,0,0,0,1,
                            1,1,1,1,1,1,0,1,
                           };
@@ -239,7 +271,7 @@ int map2[N] = {
 int map2_end = 57;
 
 Player p;
-Enemy e;
+Enemy e,e1,e2 ;
 ///
 
 
@@ -255,11 +287,16 @@ void setupMap(int map[], Player player, Enemy enemy)  //  se încarcă harta în
             {
                 if( i == player.getPosition())
                     ledarray[i] = COLOR_PLAYER;
+                else if( i == enemy.getPosition())
+                    {
+                        ledarray[i] = COLOR_ENEMY;
+                        ledarray[enemy.getLastposition()] = COLOR_DEFAULT;
+                    }
+                      
                 else
-                if( i == enemy.getPosition())
-                    ledarray[i] = COLOR_ENEMY;
-                else
-                    ledarray[i] = COLOR_DEFAULT;
+                if(ledarray[i] != COLOR_ENEMY)
+                      ledarray[i] = COLOR_DEFAULT;  
+                
             }
     }
     RenderFrame();
@@ -269,12 +306,18 @@ void setupMap(int map[], Player player, Enemy enemy)  //  se încarcă harta în
 void Map1()
 {
       p = Player(2);
+      
       e = Enemy(28);
+      e1 = Enemy(38);
+      e2 = Enemy(54);
+      e2.setMoves(5);
 }
 void Map2()
 {
       p = Player(3);
       e = Enemy(51);
+      e1 = Enemy(15);
+      e1.setMoves(4);
 }
 void Map3()
 {
@@ -354,22 +397,29 @@ void loop()
     {
       //enemyMovement1();
       e.movement1();
-      setupMap(map1,p,e);
+      e1.movement1();
+      e2.movement1();
+      //e1.movement1();
+     setupMap(map1,p,e);
+     setupMap(map1,p,e1);
+     setupMap(map1,p,e2);
     }
     else if(won == 1)  //  dacă player-ul a câștigat o singură dată , este încărcată a doua hartă
     { 
       e.movement2();
+      e1.movement1();
       setupMap(map2,p,e);
+      setupMap(map2,p,e1);
     }
   }  
 
-  if(p.getPosition() == e.getPosition()) // dacă player-ul se află în același loc cu enemy-ul, jocul este pierdut
+  if((p.getPosition() == e.getPosition()) || (p.getPosition() == e1.getPosition()) || (p.getPosition() == e2.getPosition()) ) // dacă player-ul se află în același loc cu enemy-ul, jocul este pierdut
   {
     lostGame();
   }
   if ((p.getPosition() == map1_end)&&(won==0))  //  dacă player-ul a ajuns în poziția de final al primei hărți se setează flag-ul de won pe 1 adică că a câștigat pe prima hartă și se trece la a doua
   { 
-    count = 1;
+    e1.setCount( 1 );
     won=1;
     Map2();
   } else
